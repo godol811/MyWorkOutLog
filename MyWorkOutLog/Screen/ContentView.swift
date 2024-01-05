@@ -20,7 +20,7 @@ struct ContentView: View {
     }
     
     var workoutDates: Set<Date> {
-            return Set(workoutHistories.map{$0.writeDate}) // 현재 날짜와 하루 전 날짜
+        return Set(workoutHistories.map{$0.writeDate }) // 현재 날짜와 하루 전 날짜
         }
 
     

@@ -1,0 +1,50 @@
+{
+  "pins" : [
+    {
+      "identity" : "calendarview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AllanJuenemann/CalendarView.git",
+      "state" : {
+        "revision" : "5d62aae8ea73c101abcec37204b3abde82b9049f",
+        "version" : "1.0.4"
+      }
+    },
+    {
+      "identity" : "exytemediapicker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/ExyteMediaPicker.git",
+      "state" : {
+        "revision" : "4ec0d232721949477c44dc3bb6112689cbf9baac",
+        "version" : "2.2.2"
+      }
+    },
+    {
+      "identity" : "facebook-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/facebook/facebook-ios-sdk",
+      "state" : {
+        "revision" : "c19607d535864533523d1f437c84035e5fb101cf",
+        "version" : "14.1.0"
+      }
+    },
+    {
+      "identity" : "sdwebimage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SDWebImage/SDWebImage.git",
+      "state" : {
+        "revision" : "fd010e54231331fc19338f81c6d072cd9ace2825",
+        "version" : "5.18.8"
+      }
+    },
+    {
+      "identity" : "sdwebimageswiftui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SDWebImage/SDWebImageSwiftUI.git",
+      "state" : {
+        "revision" : "261b6cec35686d2dc192b809ab50742b4502a73b",
+        "version" : "2.2.6"
+      }
+    }
+  ],
+  "version" : 2
+}

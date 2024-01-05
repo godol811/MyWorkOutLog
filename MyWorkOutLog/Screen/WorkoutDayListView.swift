@@ -1,20 +1,18 @@
 //
-//  WorkoutListView.swift
+//  WorkoutDayListView.swift
 //  MyWorkOutLog
 //
-//  Created by 고종찬 on 2024/01/04.
+//  Created by 고종찬 on 2024/01/05.
 //
 
 import SwiftUI
 import SwiftData
 
-struct WorkoutListView: View {
+struct WorkoutDayListView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var workoutHistories: [WorkoutHistory]
+    var workoutHistories: [WorkoutHistory]
     @State private var showAddWorkoutView: Bool = false
     @State private var showModifyWorkoutView: Bool = false
-    @State private var showDeleteAlert: Bool = false
-    
     // 날짜별로 그룹화된 운동 기록
     private var groupedWorkoutHistories: [Date: [WorkoutHistory]] {
         Dictionary(grouping: workoutHistories) { (workoutHistory) in
@@ -59,16 +57,16 @@ struct WorkoutListView: View {
                                     }
                                     VStack(alignment: .leading){
                                         HStack(alignment:.bottom){
-                                            Text("\(history.title.localized)")
+                                            Text(history.title)
                                                 .font(.headline)
                                                 .padding(.bottom)
                                             Spacer()
-                                            Text("\(history.condition.localized)")
+                                            Text(history.condition)
                                                 .font(.footnote)
                                                 .padding(.bottom)
                                                 .foregroundColor(history.condition.colorForCondition())
                                         }
-                                     
+                                       
                                         ForEach(history.hashTags ?? []){ hashTag in
                                             Text("#\(hashTag.tag)")
                                                 .lineLimit(1)
@@ -79,41 +77,28 @@ struct WorkoutListView: View {
                                     Spacer()
                                 }// HSTACK
                             }
-                            .alert("삭제하시겠습니까?", isPresented: $showDeleteAlert) {
-                                Button("삭제".localized, role: .destructive) {
+                            
+                            .swipeActions(edge: .trailing) {
+                                Button(role: .destructive) {
+                                    // 삭제 액션
                                     if let index = workoutHistories.firstIndex(of: history) {
                                         modelContext.delete(workoutHistories[index])
                                     }
-                                }
-                                Button("취소".localized, role: .cancel) {
-//                                    showDeleteAlert = false
-                                }
-                            } message: {
-                                Text("삭제를 누르시면 데이터가 복구되지 않습니다.")
-                            }
-                            
-                            .swipeActions(edge: .trailing) {
-                                Button{
-                                    // 삭제 액션
-                                    showDeleteAlert = true
                                 } label: {
-                                    Label("삭제".localized, systemImage: "trash")
+                                    Label("Delete", systemImage: "trash")
                                 }
-                             
-                                
                                 Button {
                                     showModifyWorkoutView.toggle()
                                 } label: {
-                                    Label("수정".localized, systemImage: "square.and.pencil")
+                                    Label("Edit", systemImage: "square.and.pencil")
                                 }
                                 .tint(.yellow)
                             }
-                            
+                       
                             .fullScreenCover(isPresented: $showModifyWorkoutView, content: {
                                 WorkoutModifyView(workoutHistory: history, showModifyWorkoutView: $showModifyWorkoutView)
                             })
-                            
-                           
+
                         }
                     }
                 }
@@ -138,9 +123,6 @@ struct WorkoutListView: View {
     private func addItem() {
         withAnimation {
             showAddWorkoutView.toggle()
-            print("\(showAddWorkoutView) ?????")
-//            let newItem = WorkoutHistory(title: "타이틀", content: "컨텐츠", writeDate: Date(), conditions: .easy)
-//            modelContext.insert(newItem)
         }
     }
 
@@ -151,8 +133,4 @@ struct WorkoutListView: View {
             }
         }
     }
-}
-
-#Preview {
-    WorkoutListView()
 }

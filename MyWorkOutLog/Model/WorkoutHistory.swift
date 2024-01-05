@@ -22,6 +22,7 @@ final class WorkoutHistory {
     var writeDate: Date
     var condition : String
     
+    
     init(title: String, content: String, writeDate: Date, condition: String) {
         self.title = title
         self.content = content

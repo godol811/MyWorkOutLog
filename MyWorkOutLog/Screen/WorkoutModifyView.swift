@@ -51,7 +51,7 @@ struct WorkoutModifyView: View {
                         .frame(minHeight: 200)
                     Picker(selection: $selectedCondition, label: Text("얼마나 힘들었나요?")) {
                         ForEach(conditions, id:\.self){ condition in
-                            Text(condition).tag(condition)
+                            Text(condition.localized).tag(condition)
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
@@ -69,36 +69,39 @@ struct WorkoutModifyView: View {
                             RoundedRectangle(cornerRadius: 8)
                                 .opacity(0.1)
                         )
-                    ScrollView(.horizontal){
-                        ScrollViewReader { scrollView in
-                            HStack{
-                                ForEach(hashTagArray, id: \.self) { tag in
-                                    HStack {
-                                        Text("#\(tag)")
-                                            .font(.footnote)
-                                        Button(action: {
-                                            self.removeTag(tag)
-                                        }) {
-                                            Image(systemName: "xmark.circle.fill")
-                                                .foregroundColor(.white)
+                    if !hashTagArray.isEmpty{
+                        ScrollView(.horizontal){
+                            ScrollViewReader { scrollView in
+                                HStack{
+                                    ForEach(hashTagArray, id: \.self) { tag in
+                                        HStack {
+                                            Text("#\(tag)")
+                                                .font(.footnote)
+                                            Button(action: {
+                                                self.removeTag(tag)
+                                            }) {
+                                                Image(systemName: "xmark.circle.fill")
+                                                    .foregroundColor(.white)
+                                            }
                                         }
+                                        .padding(8) // 적절한 패딩 값
+                                        .background(Color.gray) // 배경색
+                                        .foregroundColor(.white) // 텍스트 색상
+                                        .cornerRadius(20) // 코너 반경으로 캡슐 형태 만들기
                                     }
-                                    .padding(8) // 적절한 패딩 값
-                                    .background(Color.gray) // 배경색
-                                    .foregroundColor(.white) // 텍스트 색상
-                                    .cornerRadius(20) // 코너 반경으로 캡슐 형태 만들기
+                                    
+                                }//HSTACK
+                                .id("lastHashTagItem")
+                                .onChange(of: hashTagArray){ _ ,_ in
+                                    withAnimation{
+                                        scrollView.scrollTo("lastHashTagItem", anchor: .trailing)
+                                    }
                                 }
-                                
-                            }//HSTACK
-                            .id("lastHashTagItem")
-                            .onChange(of: hashTagArray){ _ ,_ in
-                                withAnimation{
-                                    scrollView.scrollTo("lastHashTagItem", anchor: .trailing)
-                                }
-                            }
-                        } // SCROLLVIEWREADER
-                    } // SCROLLVIEW
-                    .padding()
+                            } // SCROLLVIEWREADER
+                        } // SCROLLVIEW
+                        .padding()
+                    }
+                    
                     
                     
                 } // VSTACK
@@ -157,8 +160,9 @@ struct WorkoutModifyView: View {
                             
                         }
                     }// LAZYHSTACK
+                    .padding()
                 }// SCROLLVIEW
-                .padding(.horizontal)
+          
                 
                 PhotosPicker(
                     selection: $vm.selectedPhotos,
@@ -181,30 +185,18 @@ struct WorkoutModifyView: View {
             hideKeyboard()
         }
         .onAppear{
-            title = workoutHistory.title
+            title = workoutHistory.title 
             content = workoutHistory.content
             selectedCondition = workoutHistory.condition
             hashTagArray = workoutHistory.hashTags?.map{ $0.tag } ?? []
             DispatchQueue.main.async{
-                vm.thumbnailImages = workoutHistory.media?.map{ ThumbnailView(image: UIImage(data:$0.data)!, type: $0.type, videoData: $0.videoData) } ?? []
+                vm.thumbnailImages = workoutHistory.media?.map{ ThumbnailView(image: UIImage(data:$0.data )!, type: $0.type , videoData: $0.videoData) } ?? []
             }
         }
     }
     
     private func checkForSubmit(_ text: String) {
-        let newWord = text.trimmingCharacters(in: .whitespaces)
-        if !newWord.isEmpty {
-            if !hashTagArray.contains(newWord){
-                hashTagArray.append(newWord)
-            }
-            hashTagText = ""
-        }
-        
-    }
-    
-    
-    private func checkForSpace(_ text: String) {
-        if text.last == " " {
+        withAnimation{
             let newWord = text.trimmingCharacters(in: .whitespaces)
             if !newWord.isEmpty {
                 if !hashTagArray.contains(newWord){
@@ -213,9 +205,29 @@ struct WorkoutModifyView: View {
                 hashTagText = ""
             }
         }
+        
+        
+    }
+    
+    
+    private func checkForSpace(_ text: String) {
+        withAnimation{
+            if text.last == " " {
+                let newWord = text.trimmingCharacters(in: .whitespaces)
+                if !newWord.isEmpty {
+                    if !hashTagArray.contains(newWord){
+                        hashTagArray.append(newWord)
+                    }
+                    hashTagText = ""
+                }
+            }
+        }
+        
     }
     private func removeTag(_ tag: String) {
-        hashTagArray.removeAll(where:{$0 == tag})
+        withAnimation{
+            hashTagArray.removeAll(where:{$0 == tag})
+        }
     }
     
     private func modifyItem(){

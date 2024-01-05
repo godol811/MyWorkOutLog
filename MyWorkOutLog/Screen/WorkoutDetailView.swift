@@ -10,6 +10,7 @@ import PhotosUI
 
 struct WorkoutDetailView: View {
     
+    @Environment(\.colorScheme) var colorScheme
     var workoutHistory: WorkoutHistory
     @State private var title = ""
     @State private var content = "원하는 와드를 넣어주세요"
@@ -22,6 +23,7 @@ struct WorkoutDetailView: View {
     @State private var image: UIImage? = nil
     @State private var showMediaPreview: Bool = false
     @State private var showMediaIndex: Int = 0
+    @State private var showShareView: Bool = false
     
     
     @StateObject var vm = PhotoSelectorViewModel()
@@ -101,17 +103,33 @@ struct WorkoutDetailView: View {
                 } // LAZYHSTACK
             } // SCROLLVIEW
             .padding(.horizontal)
-            .navigationTitle(dateFormatted(workoutHistory.writeDate))
+            .navigationTitle(dateFormattedLocalized(workoutHistory.writeDate))
             .onChange(of: vm.selectedPhotos) { _, _ in
                 vm.convertDataToImage()
             }
             .sheet(isPresented: $showMediaPreview, content: {
                 MediaFullScreenViewer(medias: workoutHistory.media, index: $showMediaIndex)
+                  
+                       
             })
          
         }
+        .toolbar(.visible, for: .navigationBar)
         .toolbar(.hidden, for: .tabBar)
-        
+        .toolbar{
+            ToolbarItem {
+                Button(action: {
+                    
+                    showShareView.toggle()
+                   
+//                    shareToInstagramStories(shareData: workoutHistory.media?.first?.data , stickerLink: "www.google.com")
+                }) {
+                    Image(systemName: "square.and.arrow.up")
+                }
+            }
+        }
+        .sheet(isPresented: $showShareView){
+        }
         .onAppear{
             title = workoutHistory.title
             content = workoutHistory.content
@@ -122,5 +140,9 @@ struct WorkoutDetailView: View {
             }
         }
     }
+    
+        
+    
+    
 }
 

@@ -28,11 +28,11 @@ class PhotoSelectorViewModel: ObservableObject {
                                 
                                     switch result {
                                     case .success(let movie):
-                                        
-                                        if let url = movie?.url {
-                                            self.videos.append(url)
-                                            self.extractThumbnailFrom(videoUrl: url)
-                                            
+                                        DispatchQueue.main.async { // 메인 스레드에서 실행
+                                            if let url = movie?.url {
+                                                self.videos.append(url)
+                                                self.extractThumbnailFrom(videoUrl: url)
+                                            }
                                         }
                                     case .failure(let error):
                                         print(error.localizedDescription)
@@ -47,7 +47,9 @@ class PhotoSelectorViewModel: ObservableObject {
                 }
             }
         }
-        selectedPhotos.removeAll()
+        DispatchQueue.main.async { // 메인 스레드에서 실행
+            self.selectedPhotos.removeAll()
+        }
     }
     
     func removeImage(at index: Int){
