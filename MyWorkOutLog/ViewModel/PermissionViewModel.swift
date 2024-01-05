@@ -16,7 +16,9 @@ class PermissionViewModel : ObservableObject{
     // 첫 화면에서 1회용으로 사용할 것이기 떄문에 UserDefaults를 사용합니다.
     @Published var permissionNotCompleted: Bool {
         didSet {
-            UserDefaults.standard.set(permissionNotCompleted, forKey: "PermissionNotCompleted")
+            DispatchQueue.main.async {
+                UserDefaults.standard.set(self.permissionNotCompleted, forKey: "PermissionNotCompleted")
+            }
         }
     }
     
@@ -38,7 +40,6 @@ class PermissionViewModel : ObservableObject{
     // 엘범 권한 요청
     func requestAccessAlbum(){
         PHPhotoLibrary.requestAuthorization(){ granted in
-            
             switch granted {
             case .authorized:
                 // 허용 되었을 때 필요한 부분 추가
@@ -51,44 +52,44 @@ class PermissionViewModel : ObservableObject{
             default:
                 break
             }
-            self.requestAccessAudio()
+            self.complete()
         }
     }
-    // 오디오 권한 요청
-    func requestAccessAudio() {
-        AVCaptureDevice.requestAccess(for: .audio, completionHandler: { accessGranted in
-            self.requestMicrophonePermission()
-        })
-    }
-    // 마이크 권한 요청
-    func requestMicrophonePermission() {
-        AVAudioSession.sharedInstance().requestRecordPermission { granted in
-            DispatchQueue.main.async {
-                if granted {
-                    // 허용 되었을 때 필요한 부분 추가
-                    self.requestContact()
-                } else {
-                    // 허용거부 했을 때 필요한 부분 추가
-                    self.requestContact()
-                }
-            }
-        }
-    }
-    // 연락처 권한 요청
-    func requestContact() {
-        let status = CNContactStore.authorizationStatus(for: .contacts)
-        if status == .notDetermined {
-            CNContactStore().requestAccess(for: .contacts) { (authorized, error) in
-                if !authorized {
-                    // 허용 되었을 때 필요한 부분 추가
-                    self.complete()
-                }else {
-                    // 허용거부 했을 때 필요한 부분 추가
-                    self.complete()
-                }
-            }
-        }
-    }
+//    // 오디오 권한 요청
+//    func requestAccessAudio() {
+//        AVCaptureDevice.requestAccess(for: .audio, completionHandler: { accessGranted in
+//            self.requestMicrophonePermission()
+//        })
+//    }
+//    // 마이크 권한 요청
+//    func requestMicrophonePermission() {
+//        AVAudioSession.sharedInstance().requestRecordPermission { granted in
+//            DispatchQueue.main.async {
+//                if granted {
+//                    // 허용 되었을 때 필요한 부분 추가
+//                    self.requestContact()
+//                } else {
+//                    // 허용거부 했을 때 필요한 부분 추가
+//                    self.requestContact()
+//                }
+//            }
+//        }
+//    }
+//    // 연락처 권한 요청
+//    func requestContact() {
+//        let status = CNContactStore.authorizationStatus(for: .contacts)
+//        if status == .notDetermined {
+//            CNContactStore().requestAccess(for: .contacts) { (authorized, error) in
+//                if !authorized {
+//                    // 허용 되었을 때 필요한 부분 추가
+//                    self.complete()
+//                }else {
+//                    // 허용거부 했을 때 필요한 부분 추가
+//                    self.complete()
+//                }
+//            }
+//        }
+//    }
     
     func complete() {
         self.permissionNotCompleted = false
