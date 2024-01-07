@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import GoogleMobileAds
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
@@ -27,20 +28,23 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selection, content: {
-                WorkoutListView()
-                    .tabItem{
-                        Image(systemName: "list.bullet")
-                        Text("리스트")
-                    }
-                    .id(Tab.list)
+            WorkoutListView()
+                .tabItem{
+                    Image(systemName: "list.bullet")
+                    Text("리스트")
+                }
+                .id(Tab.list)
             WorkoutCalendarView()
-                    .tabItem{
-                        Image(systemName: "calendar")
-                        Text("달력")
-                    }
-                    .id(Tab.calendar)
+            
+               
+                .tabItem{
+                    Image(systemName: "calendar")
+                    Text("달력")
+                }
+                .id(Tab.calendar)
             
            
+            
             
         })
         .toolbar(.visible, for: .tabBar)

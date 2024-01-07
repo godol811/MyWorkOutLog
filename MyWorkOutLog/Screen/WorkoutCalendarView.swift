@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import CalendarView
+import GoogleMobileAds
 
 struct WorkoutCalendarView: View {
     @Environment(\.calendar) var calendar
@@ -20,8 +21,11 @@ struct WorkoutCalendarView: View {
     @State private var dates: Set<DateComponents> = []
     @State private var selectedDates: DateComponents?
     
+
+    
     var body: some View {
         NavigationStack{
+           
             ScrollView{
                 CalendarView(selection: $selectedDates)
                     .decorating(dates){ dateComponents in
@@ -47,14 +51,14 @@ struct WorkoutCalendarView: View {
                 self.dates = Set(workoutHistories.map{convertDateToDateComponents(date:$0.writeDate )})
                 self.selectedWorkoutHistory = nil
             }
-           
             .navigationDestination(isPresented: $showWorkoutDetail){
                 if let selected = selectedWorkoutHistory{
                     let workoutHistory = workoutHistories.filter{selected == $0}
                     WorkoutDayListView(workoutHistories: workoutHistory)
-                    
                 }
             }
+            BannerView()
+                .frame(height:50)
         }
         
         //        .fullScreenCover(isPresented: $showWorkoutDetail){

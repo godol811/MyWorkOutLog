@@ -42,15 +42,23 @@ func saveDataToFile(data: Data, withFileName fileName: String) -> URL? {
     // 파일의 최종 경로를 설정합니다.
     let fileURL = documentsDirectory.appendingPathComponent(fileName)
 
-    do {
-        // Data 객체를 파일로 저장합니다.
-        try data.write(to: fileURL, options: .atomic)
-        print("파일이 저장되었습니다: \(fileURL)")
-        return fileURL
-    } catch {
-        print("파일 저장 실패: \(error)")
-        return nil
-    }
+    // 파일이 이미 존재하는 경우 삭제
+      if fileManager.fileExists(atPath: fileURL.path) {
+          do {
+              try fileManager.removeItem(at: fileURL)
+          } catch {
+              print("Error removing existing file: \(error)")
+              return nil
+          }
+      }
+
+      do {
+          try data.write(to: fileURL)
+          return fileURL
+      } catch {
+          print("Error saving file: \(error)")
+          return nil
+      }
 }
 
 

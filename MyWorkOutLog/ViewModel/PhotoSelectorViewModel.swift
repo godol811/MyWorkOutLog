@@ -8,6 +8,7 @@ class PhotoSelectorViewModel: ObservableObject {
     @Published var images = [UIImage]()
     @Published var videos = [URL]()
     @Published var selectedPhotos = [PhotosPickerItem]()
+    @Published var shareItems: [Any] = []
     
     @MainActor
     func convertDataToImage() {
@@ -74,6 +75,36 @@ class PhotoSelectorViewModel: ObservableObject {
                 print(error.localizedDescription)
             }
         }
+    
+    func prepareForShareItems() -> [Any] {
+        // 첫째, .photo와 .video의 존재 여부를 확인합니다.
+        let containsPhoto = thumbnailImages.contains { $0.type == .photo }
+        let containsVideo = thumbnailImages.contains { $0.type == .video }
+        let tempFileName = "\(Date().timeIntervalSince1970)_Temp.mp4"
+        // .photo와 .video가 둘 다 존재하는 경우에는 .video만 배열에 포함합니다.
+        if containsPhoto && containsVideo {
+            return thumbnailImages.compactMap { item in
+                if item.type == .video {
+                    return item.videoData.flatMap { saveDataToFile(data: $0, withFileName: tempFileName) }
+                } else {
+                    return nil
+                }
+            }
+        } else {
+            // .photo만 있거나 .video만 있는 경우에는 해당 타입의 모든 항목을 포함합니다.
+            return thumbnailImages.compactMap { item in
+                switch item.type {
+                case .photo:
+                    return item.image
+                case .video:
+                    return item.videoData.flatMap { 
+                        saveDataToFile(data: $0, withFileName: tempFileName) }
+                }
+            }
+        }
+    }
+    
+    
 }
 
 struct ThumbnailView{

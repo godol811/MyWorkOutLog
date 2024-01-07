@@ -129,19 +129,23 @@ struct WorkoutDetailView: View {
             }
         }
         .sheet(isPresented: $showShareView){
+            ActivityViewController(activityItems: vm.shareItems)
         }
+        
         .onAppear{
+            
+            
             title = workoutHistory.title
             content = workoutHistory.content
             selectedCondition = workoutHistory.condition
             hashTagArray = workoutHistory.hashTags?.map{ $0.tag } ?? []
             DispatchQueue.main.async{
                 vm.thumbnailImages = workoutHistory.media?.map{ ThumbnailView(image: UIImage(data:$0.data)!, type: $0.type, videoData: $0.videoData) } ?? []
+                vm.shareItems = vm.prepareForShareItems()
             }
         }
     }
     
-        
     
     
 }

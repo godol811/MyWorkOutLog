@@ -29,6 +29,8 @@
 		7CA7A0A72B4642E7007FFB72 /* WorkoutListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7A0A62B4642E7007FFB72 /* WorkoutListView.swift */; };
 		7CA7A0A92B464474007FFB72 /* WorkoutCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7A0A82B464474007FFB72 /* WorkoutCalendarView.swift */; };
 		7CA7A0AE2B468EB1007FFB72 /* CalendarView in Frameworks */ = {isa = PBXBuildFile; productRef = 7CA7A0AD2B468EB1007FFB72 /* CalendarView */; };
+		7CE7810E2B4A5A32009092AF /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE7810D2B4A5A31009092AF /* GoogleMobileAds */; };
+		7CE781102B4A5ADA009092AF /* GoogleAdMobManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE7810F2B4A5ADA009092AF /* GoogleAdMobManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,7 @@
 		7C9FBDDE2B47F5F800C57B0F /* InstagramShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramShareView.swift; sourceTree = "<group>"; };
 		7CA7A0A62B4642E7007FFB72 /* WorkoutListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListView.swift; sourceTree = "<group>"; };
 		7CA7A0A82B464474007FFB72 /* WorkoutCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCalendarView.swift; sourceTree = "<group>"; };
+		7CE7810F2B4A5ADA009092AF /* GoogleAdMobManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdMobManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CE7810E2B4A5A32009092AF /* GoogleMobileAds in Frameworks */,
 				7C030A322B43D21A00A51AC0 /* SDWebImageSwiftUI in Frameworks */,
 				7CA7A0AE2B468EB1007FFB72 /* CalendarView in Frameworks */,
 				7C030A2D2B43CE9F00A51AC0 /* ExyteMediaPicker in Frameworks */,
@@ -158,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				7C6BE5CC2B47956A00CE57C1 /* LanguageManager.swift */,
+				7CE7810F2B4A5ADA009092AF /* GoogleAdMobManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -190,6 +195,7 @@
 				7C030A2C2B43CE9F00A51AC0 /* ExyteMediaPicker */,
 				7C030A312B43D21A00A51AC0 /* SDWebImageSwiftUI */,
 				7CA7A0AD2B468EB1007FFB72 /* CalendarView */,
+				7CE7810D2B4A5A31009092AF /* GoogleMobileAds */,
 			);
 			productName = MyWorkOutLog;
 			productReference = 7C030A142B43A18500A51AC0 /* MyWorkOutLog.app */;
@@ -225,6 +231,7 @@
 				7C030A302B43D21A00A51AC0 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				7CA7A0AC2B468EB1007FFB72 /* XCRemoteSwiftPackageReference "CalendarView" */,
 				7C9FBDD32B47E83200C57B0F /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				7CE7810C2B4A5A31009092AF /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = 7C030A152B43A18500A51AC0 /* Products */;
 			projectDirPath = "";
@@ -260,6 +267,7 @@
 				7C28F3172B453E1D00D12099 /* WorkoutDetailView.swift in Sources */,
 				7C030A1A2B43A18500A51AC0 /* ContentView.swift in Sources */,
 				7C9FBDD22B47E35100C57B0F /* ActivityViewController.swift in Sources */,
+				7CE781102B4A5ADA009092AF /* GoogleAdMobManager.swift in Sources */,
 				7C9FBDDF2B47F5F800C57B0F /* InstagramShareView.swift in Sources */,
 				7C030A1C2B43A18500A51AC0 /* WorkoutHistory.swift in Sources */,
 				7C6BE5CA2B47893E00CE57C1 /* WorkoutDayListView.swift in Sources */,
@@ -400,6 +408,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MyWorkOutLog/MyWorkOutLog.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MyWorkOutLog/Preview Content\"";
@@ -407,8 +416,10 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyWorkOutLog/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "나의운동일지";
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 사용할거지롱";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진첩 사용할거지롱";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "광고를 위해";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -420,8 +431,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = kr.godol.MyWorkOutLog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -434,6 +447,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MyWorkOutLog/MyWorkOutLog.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MyWorkOutLog/Preview Content\"";
@@ -441,8 +455,10 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyWorkOutLog/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "나의운동일지";
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 사용할거지롱";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진첩 사용할거지롱";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "광고를 위해";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -454,8 +470,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = kr.godol.MyWorkOutLog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -518,6 +536,14 @@
 				minimumVersion = 1.0.4;
 			};
 		};
+		7CE7810C2B4A5A31009092AF /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.14.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -535,6 +561,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7CA7A0AC2B468EB1007FFB72 /* XCRemoteSwiftPackageReference "CalendarView" */;
 			productName = CalendarView;
+		};
+		7CE7810D2B4A5A31009092AF /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7CE7810C2B4A5A31009092AF /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -38,12 +38,14 @@ final class Media{
     var data: Data
     var type: ThumbnailType
     var videoData: Data?
+    var videoURL: URL?
     var workoutHistory: WorkoutHistory?
     
-    init(data: Data, type: ThumbnailType, videoData: Data? = nil){
+    init(data: Data, type: ThumbnailType, videoData: Data? = nil, videoURL: URL? = nil){
         self.data = data
         self.type = type
         self.videoData = videoData
+        self.videoURL = videoURL
     }
 }
 

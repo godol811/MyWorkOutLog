@@ -131,6 +131,8 @@ struct WorkoutListView: View {
             .fullScreenCover(isPresented: $showAddWorkoutView, content: {
                 WorkoutAddView(showWorkoutAddView: $showAddWorkoutView)
             })
+            BannerView()
+                .frame(height:50)
         }
         
     }
