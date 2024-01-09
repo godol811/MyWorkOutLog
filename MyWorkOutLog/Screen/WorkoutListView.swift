@@ -14,7 +14,7 @@ struct WorkoutListView: View {
     @State private var showAddWorkoutView: Bool = false
     @State private var showModifyWorkoutView: Bool = false
     @State private var showDeleteAlert: Bool = false
-    
+    @State private var selectedWorkoutStory: WorkoutHistory?
     // 날짜별로 그룹화된 운동 기록
     private var groupedWorkoutHistories: [Date: [WorkoutHistory]] {
         Dictionary(grouping: workoutHistories) { (workoutHistory) in
@@ -25,6 +25,8 @@ struct WorkoutListView: View {
     
     var body: some View {
         NavigationStack{
+            BannerView()
+                .frame(height:60)
             List {
                 ForEach(groupedWorkoutHistories.keys.sorted(), id: \.self) { date in
                     Section(header: Text(dateFormattedLocalized(date))) {
@@ -91,7 +93,7 @@ struct WorkoutListView: View {
                             } message: {
                                 Text("삭제를 누르시면 데이터가 복구되지 않습니다.")
                             }
-                            
+                        
                             .swipeActions(edge: .trailing) {
                                 Button{
                                     // 삭제 액션
@@ -101,18 +103,25 @@ struct WorkoutListView: View {
                                 }
                              
                                 
-                                Button {
-                                    showModifyWorkoutView.toggle()
-                                } label: {
-                                    Label("수정".localized, systemImage: "square.and.pencil")
-                                }
-                                .tint(.yellow)
+//                                Button {
+//                                    self.selectedWorkoutStory = history
+//                                    
+//                                } label: {
+//                                    Label("수정localized, systemImage: "square.and.pencil")
+//                                }
+//                                .tint(.yellow)
                             }
-                            
-                            .fullScreenCover(isPresented: $showModifyWorkoutView, content: {
-                                WorkoutModifyView(workoutHistory: history, showModifyWorkoutView: $showModifyWorkoutView)
-                            })
-                            
+//                            .onChange(of: self.selectedWorkoutStory){ _,nv in
+//                                if nv != nil{
+//                                    showModifyWorkoutView.toggle()
+//                                }
+//                            }
+//                            .fullScreenCover(isPresented: $showModifyWorkoutView, content: {
+//                                if let selected = selectedWorkoutStory{
+//                                    WorkoutModifyView(workoutHistory: selected, showModifyWorkoutView: $showModifyWorkoutView)
+//                                }
+//                            })
+//                            
                            
                         }
                     }
@@ -131,8 +140,8 @@ struct WorkoutListView: View {
             .fullScreenCover(isPresented: $showAddWorkoutView, content: {
                 WorkoutAddView(showWorkoutAddView: $showAddWorkoutView)
             })
-            BannerView()
-                .frame(height:50)
+//            BannerView()
+//                .frame(height:50)
         }
         
     }
@@ -140,7 +149,6 @@ struct WorkoutListView: View {
     private func addItem() {
         withAnimation {
             showAddWorkoutView.toggle()
-            print("\(showAddWorkoutView) ?????")
 //            let newItem = WorkoutHistory(title: "타이틀", content: "컨텐츠", writeDate: Date(), conditions: .easy)
 //            modelContext.insert(newItem)
         }
@@ -155,6 +163,3 @@ struct WorkoutListView: View {
     }
 }
 
-#Preview {
-    WorkoutListView()
-}

@@ -8,11 +8,11 @@
 import SwiftUI
 import PhotosUI
 import SDWebImageSwiftUI
+import SwiftData
 
 struct WorkoutAddView: View {
-    
     @State private var title = ""
-    @State private var content = "오늘 무슨 운동을 하셨나요?".localized
+    @State private var content = ""
     @State private var hashTagText = ""
     @State private var hashTagArray: [String] = []
     @State private var selectedCondition: String = "쉬움"
@@ -23,6 +23,12 @@ struct WorkoutAddView: View {
     @State private var alertMessage = ""
     
     @Binding var showWorkoutAddView:Bool
+    @State private var autoCompleteTags = [String]()
+    @State private var isShowingAutoComplete = false
+    @State private var hashTagTextWidth:Double = 0.0
+    
+    
+    @Query var workoutHistories : [WorkoutHistory]
     @Environment(\.modelContext) private var modelContext
     @StateObject var vm = PhotoSelectorViewModel()
     
@@ -31,6 +37,8 @@ struct WorkoutAddView: View {
     
     var body: some View {
         NavigationStack{
+            BannerView()
+                .frame(height:60)
             ScrollView{
                 VStack{
                     TextField("제목", text: $title)
@@ -39,14 +47,23 @@ struct WorkoutAddView: View {
                             RoundedRectangle(cornerRadius: 8)
                                 .opacity(0.1)
                         )
-                    TextEditor(text: $content)
-                        .padding(5)
-                        .scrollContentBackground(.hidden) // <- Hide it
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.black.opacity(0.1)) // 여기를 변경함
-                        )
-                        .frame(minHeight: 200)
+                    ZStack(alignment: .topLeading) {
+                        if content.isEmpty {
+                            Text("오늘 무슨 운동을 하셨나요?".localized)
+                                .foregroundColor(Color.gray)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 12)
+                        }
+                        TextEditor(text: $content)
+                            .padding(5)
+                            .scrollContentBackground(.hidden) // <- Hide it
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.black.opacity(0.1)) // 여기를 변경함
+                            )
+                            .frame(minHeight: 200)
+                    }
+                    
                     Picker(selection: $selectedCondition, label: Text("얼마나 힘들었나요?".localized)) {
                         ForEach(conditions, id:\.self){ condition in
                             Text(condition.localized).tag(condition)
@@ -56,50 +73,91 @@ struct WorkoutAddView: View {
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
-                    
-                    TextField("스페이스바를 눌러 해시태그를 넣어보세요 (최대 10개)".localized, text: $hashTagText)
-                        .font(.footnote)
-                        .onSubmit{
-                            checkForSubmit(hashTagText)
-                        }
-                        .onChange(of: hashTagText){_,_ in
-                            checkForSpace(hashTagText)
-                        }
-                        .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .opacity(0.1)
-                        )
-                    ScrollView(.horizontal){
-                        ScrollViewReader { scrollView in
-                            HStack{
-                                ForEach(hashTagArray, id: \.self) { tag in
-                                    HStack {
-                                        Text("#\(tag)")
-                                            .font(.footnote)
-                                        Button(action: {
-                                            self.removeTag(tag)
-                                        }) {
-                                            Image(systemName: "xmark.circle.fill")
-                                                .foregroundColor(.white)
+                        VStack{
+                            ZStack(alignment: .leading){
+                                TextWidthView(text: $hashTagText, textWidth: $hashTagTextWidth)
+                                TextField("스페이스바를 눌러 해시태그를 넣어보세요 (최대 10개)".localized, text: $hashTagText)
+                                    .overlay{
+                                        HStack{
+                                            if isShowingAutoComplete {
+                                                HStack{
+                                                    Text("#\(autoCompleteTags.first ?? "")")
+                                                        .font(.footnote)
+                                                        .onTapGesture {
+                                                            selectAutoCompleteTag(autoCompleteTags.first ?? "")
+                                                        }
+                                                        
+                                                    Button(action: {
+                                                        isShowingAutoComplete = false
+                                                        autoCompleteTags.removeAll()
+                                                    }) {
+                                                        Image(systemName: "xmark.circle.fill")
+                                                            .foregroundColor(.white)
+                                                    }
+                                                }
+                                                .padding(5)
+                                                .background(Color.gray) // 배경색
+                                                .foregroundColor(.white) // 텍스트 색상
+                                                .cornerRadius(20) // 코너 반경으로 캡슐 형태 만들기
+                                                .offset(x: hashTagTextWidth + 2)
+                                                
+                                            }
+                                            Spacer()
+                                        }
+                                        
+                                    }
+                                    .onChange(of: hashTagText) { _, newValue in
+                                        updateAutoCompleteTags(with: newValue)
+                                    }
+                                
+                                    .font(.footnote)
+                                    .onSubmit{
+                                        checkForSubmit(hashTagText)
+                                    }
+                                    .onChange(of: hashTagText){_,_ in
+                                        checkForSpace(hashTagText)
+                                    }
+                                    .padding()
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .opacity(0.1)
+                                    )
+                            }
+                          
+                            ScrollView(.horizontal){
+                                ScrollViewReader { scrollView in
+                                    HStack{
+                                        ForEach(hashTagArray, id: \.self) { tag in
+                                            HStack {
+                                                Text("#\(tag)")
+                                                    .font(.footnote)
+                                                Button(action: {
+                                                    self.removeTag(tag)
+                                                }) {
+                                                    Image(systemName: "xmark.circle.fill")
+                                                        .foregroundColor(.white)
+                                                }
+                                            }
+                                            .padding(8) // 적절한 패딩 값
+                                            .background(Color.gray) // 배경색
+                                            .foregroundColor(.white) // 텍스트 색상
+                                            .cornerRadius(20) // 코너 반경으로 캡슐 형태 만들기
+                                        }
+                                        
+                                    }//HSTACK
+                                    .id("lastHashTagItem")
+                                    .onChange(of: hashTagArray){ _ ,_ in
+                                        withAnimation{
+                                            scrollView.scrollTo("lastHashTagItem", anchor: .trailing)
                                         }
                                     }
-                                    .padding(8) // 적절한 패딩 값
-                                    .background(Color.gray) // 배경색
-                                    .foregroundColor(.white) // 텍스트 색상
-                                    .cornerRadius(20) // 코너 반경으로 캡슐 형태 만들기
-                                }
-                                
-                            }//HSTACK
-                            .id("lastHashTagItem")
-                            .onChange(of: hashTagArray){ _ ,_ in
-                                withAnimation{
-                                    scrollView.scrollTo("lastHashTagItem", anchor: .trailing)
-                                }
+                                }// SCROLLVIEWREADER
                             }
-                        }// SCROLLVIEWREADER
-                    }
-                    
+                        }
+                        
+                   
+                  
+                  
                     
                 } // VSTACK
                 .padding()
@@ -190,7 +248,6 @@ struct WorkoutAddView: View {
             }
             hashTagText = ""
         }
-        
     }
     
     
@@ -231,7 +288,44 @@ struct WorkoutAddView: View {
             }
             showWorkoutAddView.toggle()
         }
+    }
+    
+    private func updateAutoCompleteTags(with text: String) {
+        // workoutHistory에서 태그를 필터링하여 autoCompleteTags를 업데이트
+        autoCompleteTags = workoutHistories
+            .flatMap { $0.hashTags ?? [] }
+            .map { $0.tag }
+            .filter { $0.hasPrefix(text) }
         
-        
+        isShowingAutoComplete = !autoCompleteTags.isEmpty && !text.isEmpty
+    }
+    
+    private func selectAutoCompleteTag(_ tag: String) {
+        // 사용자가 태그를 선택하면 해시태그 배열에 추가하고 입력 필드 초기화
+        hashTagArray.append(tag)
+        hashTagText = ""
+        isShowingAutoComplete = false
+    }
+    
+}
+
+struct TextWidthView: View {
+    @Binding var text: String
+    @Binding var textWidth: Double
+
+    var body: some View {
+        Text(text)
+            .hidden()
+            .overlay(
+                GeometryReader { textGeometry in
+                    Color.clear
+                        .onChange(of: text) { _,_ in
+                            // 텍스트가 변경될 때마다 너비를 업데이트
+                            textWidth = textGeometry.size.width
+                            print("너비 \(textWidth)")
+                        }
+                }
+            )
+            .frame(height: 0) // 실제 UI에 영향을 주지 않도록 높이는 0으로 설정
     }
 }

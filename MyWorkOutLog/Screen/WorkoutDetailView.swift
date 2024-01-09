@@ -24,6 +24,7 @@ struct WorkoutDetailView: View {
     @State private var showMediaPreview: Bool = false
     @State private var showMediaIndex: Int = 0
     @State private var showShareView: Bool = false
+    @State private var editMode: Bool = false
     
     
     @StateObject var vm = PhotoSelectorViewModel()
@@ -31,119 +32,122 @@ struct WorkoutDetailView: View {
     let maxPhotosToSelect = 10
     let conditions = ["쉬움","보통","어려움"]
     var body: some View {
-        ScrollView{
-            VStack{
-                TextField("제목", text: $title)
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .opacity(0.1)
-                    )
-                TextEditor(text: $content)
-                    .padding(5)
-                    .scrollContentBackground(.hidden) // <- Hide it
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(Color.black.opacity(0.1)) // 여기를 변경함
-                    )
-                
-                    .frame(minHeight: 200)
-                Picker(selection: $selectedCondition, label: Text("얼마나 힘들었나요?")) {
-                    ForEach(conditions, id:\.self){ condition in
-                        Text(condition).tag(condition)
+        
+        if editMode{
+            WorkoutModifyView(workoutHistory: workoutHistory, showModifyWorkoutView: $editMode)
+            
+        }else{
+            ScrollView{
+                BannerView()
+                    .frame(height:60)
+                VStack{
+                    TextField("제목", text: $title)
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .opacity(0.1)
+                        )
+                    TextEditor(text: $content)
+                        .padding(5)
+                        .scrollContentBackground(.hidden) // <- Hide it
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.black.opacity(0.1)) // 여기를 변경함
+                        )
+                    
+                        .frame(minHeight: 200)
+                    Picker(selection: $selectedCondition, label: Text("얼마나 힘들었나요?")) {
+                        ForEach(conditions, id:\.self){ condition in
+                            Text(condition).tag(condition)
+                        }
                     }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                ScrollView(.horizontal){
-                        HStack{
-                            ForEach(hashTagArray, id: \.self) { tag in
-                                HStack {
-                                    Text("#\(tag)")
-                                        .font(.footnote)
-                                    
+                    .pickerStyle(SegmentedPickerStyle())
+                    ScrollView(.horizontal){
+                            HStack{
+                                ForEach(hashTagArray, id: \.self) { tag in
+                                    HStack {
+                                        Text("#\(tag)")
+                                            .font(.footnote)
+                                        
+                                    }
+                                    .padding(8) // 적절한 패딩 값
+                                    .background(Color.gray) // 배경색
+                                    .foregroundColor(.white) // 텍스트 색상
+                                    .cornerRadius(20) // 코너 반경으로 캡슐 형태 만들기
                                 }
-                                .padding(8) // 적절한 패딩 값
-                                .background(Color.gray) // 배경색
-                                .foregroundColor(.white) // 텍스트 색상
-                                .cornerRadius(20) // 코너 반경으로 캡슐 형태 만들기
-                            }
-                        }//HSTACK
-                }// SCROLLVIEW
+                            }//HSTACK
+                    }// SCROLLVIEW
+                    .padding()
+                    
+                } // VSTACK
+                .disabled(true)
                 .padding()
                 
-            } // VSTACK
-            .disabled(true)
-            .padding()
-            
-            ScrollView(.horizontal){
-                LazyHStack {
-                    ForEach(0..<vm.thumbnailImages.count, id: \.self) { index in
-                        ZStack(alignment: .topTrailing) {
-                            ZStack{
-                                Image(uiImage: vm.thumbnailImages[index].image)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 300)
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                                if vm.thumbnailImages[index].type == .video{
-                                    Image(systemName: "video.circle.fill")
-                                        .renderingMode(.original)
-                                        .tint(Color.white)
+                ScrollView(.horizontal){
+                    LazyHStack {
+                        ForEach(0..<vm.thumbnailImages.count, id: \.self) { index in
+                            ZStack(alignment: .topTrailing) {
+                                ZStack{
+                                    Image(uiImage: vm.thumbnailImages[index].image)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 300)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    if vm.thumbnailImages[index].type == .video{
+                                        Image(systemName: "video.circle.fill")
+                                            .renderingMode(.original)
+                                            .tint(Color.white)
+                                    }
+                                    
                                 }
-                                
+                                .onTapGesture{
+                                    showMediaIndex = index
+                                    showMediaPreview.toggle()
+                                }
+                               
                             }
-                            .onTapGesture{
-                                showMediaIndex = index
-                                showMediaPreview.toggle()
-                            }
-                           
+                            
                         }
-                        
-                    }
-                } // LAZYHSTACK
-            } // SCROLLVIEW
-            .padding(.horizontal)
-            .navigationTitle(dateFormattedLocalized(workoutHistory.writeDate))
-            .onChange(of: vm.selectedPhotos) { _, _ in
-                vm.convertDataToImage()
+                    } // LAZYHSTACK
+                } // SCROLLVIEW
+                .padding(.horizontal)
+                .navigationTitle(dateFormattedLocalized(workoutHistory.writeDate))
+                .onChange(of: vm.selectedPhotos) { _, _ in
+                    vm.convertDataToImage()
+                }
+                .sheet(isPresented: $showMediaPreview, content: {
+                    MediaFullScreenViewer(medias: workoutHistory.media, index: $showMediaIndex)
+                           
+                })
+             
             }
-            .sheet(isPresented: $showMediaPreview, content: {
-                MediaFullScreenViewer(medias: workoutHistory.media, index: $showMediaIndex)
-                  
-                       
-            })
-         
-        }
-        .toolbar(.visible, for: .navigationBar)
-        .toolbar(.hidden, for: .tabBar)
-        .toolbar{
-            ToolbarItem {
-                Button(action: {
-                    
-                    showShareView.toggle()
-                   
-//                    shareToInstagramStories(shareData: workoutHistory.media?.first?.data , stickerLink: "www.google.com")
-                }) {
-                    Image(systemName: "square.and.arrow.up")
+            .toolbar(.visible, for: .navigationBar)
+            .toolbar(.hidden, for: .tabBar)
+            .toolbar{
+                ToolbarItem {
+                    Button(action: {
+                        withAnimation{
+                            editMode.toggle()
+                        }
+                    }) {
+                        Text("수정하기".localized)
+                    }
+                }
+            }
+            .onAppear{
+                title = workoutHistory.title
+                content = workoutHistory.content
+                selectedCondition = workoutHistory.condition
+                hashTagArray = workoutHistory.hashTags?.map{ $0.tag } ?? []
+                DispatchQueue.main.async{
+                    vm.thumbnailImages = workoutHistory.media?.map{ ThumbnailView(image: UIImage(data:$0.data)!, type: $0.type, videoData: $0.videoData) } ?? []
+                    vm.shareItems = vm.prepareForShareItems()
                 }
             }
         }
-        .sheet(isPresented: $showShareView){
-            ActivityViewController(activityItems: vm.shareItems)
-        }
         
-        .onAppear{
-            
-            
-            title = workoutHistory.title
-            content = workoutHistory.content
-            selectedCondition = workoutHistory.condition
-            hashTagArray = workoutHistory.hashTags?.map{ $0.tag } ?? []
-            DispatchQueue.main.async{
-                vm.thumbnailImages = workoutHistory.media?.map{ ThumbnailView(image: UIImage(data:$0.data)!, type: $0.type, videoData: $0.videoData) } ?? []
-                vm.shareItems = vm.prepareForShareItems()
-            }
-        }
+        
+
     }
     
     

@@ -7,13 +7,14 @@
 
 import SwiftUI
 import PhotosUI
+import SwiftData
 
 struct WorkoutModifyView: View {
     
-    @Bindable var workoutHistory: WorkoutHistory
+    var workoutHistory: WorkoutHistory
     @Binding var showModifyWorkoutView:Bool
     @State private var title = ""
-    @State private var content = "원하는 와드를 넣어주세요"
+    @State private var content = ""
     @State private var selectedCondition: String = "쉬움"
     @State private var hashTagText = ""
     @State private var hashTagArray: [String] = []
@@ -22,9 +23,12 @@ struct WorkoutModifyView: View {
     @State private var selectedItems: [PhotosPickerItem] = []
     @State private var image: UIImage? = nil
     
+    @State private var autoCompleteTags = [String]()
+    @State private var isShowingAutoComplete = false
+    @State private var hashTagTextWidth:Double = 0.0
     
     
-    
+    @Query var workoutHistories : [WorkoutHistory]
     @Environment(\.modelContext) private var modelContext
     
     
@@ -33,6 +37,8 @@ struct WorkoutModifyView: View {
     let conditions = ["쉬움","보통","어려움"]
     var body: some View {
         NavigationStack{
+            BannerView()
+                .frame(height:60)
             ScrollView{
                 VStack{
                     TextField("제목", text: $title)
@@ -41,14 +47,22 @@ struct WorkoutModifyView: View {
                             RoundedRectangle(cornerRadius: 8)
                                 .opacity(0.1)
                         )
-                    TextEditor(text: $content)
-                        .padding(5)
-                        .scrollContentBackground(.hidden) // <- Hide it
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.black.opacity(0.1)) // 여기를 변경함
-                        )
-                        .frame(minHeight: 200)
+                    ZStack(alignment: .topLeading) {
+                        if content.isEmpty {
+                            Text("오늘 무슨 운동을 하셨나요?".localized)
+                                .foregroundColor(Color.gray)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 12)
+                        }
+                        TextEditor(text: $content)
+                            .padding(5)
+                            .scrollContentBackground(.hidden) // <- Hide it
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.black.opacity(0.1)) // 여기를 변경함
+                            )
+                            .frame(minHeight: 200)
+                    }
                     Picker(selection: $selectedCondition, label: Text("얼마나 힘들었나요?")) {
                         ForEach(conditions, id:\.self){ condition in
                             Text(condition.localized).tag(condition)
@@ -56,20 +70,57 @@ struct WorkoutModifyView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     
-                    TextField("스페이스바를 눌러 해시태그를 넣어보세요 (최대 10개)", text: $hashTagText)
-                        .font(.footnote)
-                        .onSubmit{
-                            checkForSubmit(hashTagText)
+                    VStack{
+                        ZStack(alignment: .leading){
+                            TextWidthView(text: $hashTagText, textWidth: $hashTagTextWidth)
+                            TextField("스페이스바를 눌러 해시태그를 넣어보세요 (최대 10개)".localized, text: $hashTagText)
+                                .overlay{
+                                    HStack{
+                                        if isShowingAutoComplete {
+                                            HStack{
+                                                Text("#\(autoCompleteTags.first ?? "")")
+                                                    .font(.footnote)
+                                                    .onTapGesture {
+                                                        selectAutoCompleteTag(autoCompleteTags.first ?? "")
+                                                    }
+                                                
+                                                Button(action: {
+                                                    isShowingAutoComplete = false
+                                                    autoCompleteTags.removeAll()
+                                                }) {
+                                                    Image(systemName: "xmark.circle.fill")
+                                                        .foregroundColor(.white)
+                                                }
+                                            }
+                                            .padding(5)
+                                            .background(Color.gray) // 배경색
+                                            .foregroundColor(.white) // 텍스트 색상
+                                            .cornerRadius(20) // 코너 반경으로 캡슐 형태 만들기
+                                            .offset(x: hashTagTextWidth + 2)
+                                            
+                                        }
+                                        Spacer()
+                                    }
+                                    
+                                }
+                                .onChange(of: hashTagText) { _, newValue in
+                                    updateAutoCompleteTags(with: newValue)
+                                }
+                            
+                                .font(.footnote)
+                                .onSubmit{
+                                    checkForSubmit(hashTagText)
+                                }
+                                .onChange(of: hashTagText){_,_ in
+                                    checkForSpace(hashTagText)
+                                }
+                                .padding()
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .opacity(0.1)
+                                )
                         }
-                        .onChange(of: hashTagText){_,_ in
-                            checkForSpace(hashTagText)
-                        }
-                        .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .opacity(0.1)
-                        )
-                    if !hashTagArray.isEmpty{
+                        
                         ScrollView(.horizontal){
                             ScrollViewReader { scrollView in
                                 HStack{
@@ -97,9 +148,8 @@ struct WorkoutModifyView: View {
                                         scrollView.scrollTo("lastHashTagItem", anchor: .trailing)
                                     }
                                 }
-                            } // SCROLLVIEWREADER
-                        } // SCROLLVIEW
-                        .padding()
+                            }// SCROLLVIEWREADER
+                        }
                     }
                     
                     
@@ -108,18 +158,23 @@ struct WorkoutModifyView: View {
                 .padding()
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarLeading) {
-                        Button(action: { showModifyWorkoutView.toggle() }) {
-                            Text("취소")
+                        Button(action: {
+                            withAnimation{
+                                showModifyWorkoutView = false
+                            }
+                        }) {
+                            Text("취소".localized)
                                 .font(.headline)
                         }
                     }
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
                         Button(action: modifyItem) {
-                            Text("수정하기")
+                            Text("완료".localized)
                                 .font(.headline)
                         }
                     }
                 }
+                .navigationBarBackButtonHidden(true)
                 
                 ScrollView(.horizontal){
                     LazyHStack {
@@ -162,7 +217,7 @@ struct WorkoutModifyView: View {
                     }// LAZYHSTACK
                     .padding()
                 }// SCROLLVIEW
-          
+                
                 
                 PhotosPicker(
                     selection: $vm.selectedPhotos,
@@ -185,7 +240,8 @@ struct WorkoutModifyView: View {
             hideKeyboard()
         }
         .onAppear{
-            title = workoutHistory.title 
+            print("AA \(workoutHistory.title)")
+            title = workoutHistory.title
             content = workoutHistory.content
             selectedCondition = workoutHistory.condition
             hashTagArray = workoutHistory.hashTags?.map{ $0.tag } ?? []
@@ -237,8 +293,26 @@ struct WorkoutModifyView: View {
             workoutHistory.condition = selectedCondition
             workoutHistory.media = vm.thumbnailImages.map { Media(data: $0.image.jpegData(compressionQuality: 1.0)!, type: $0.type, videoData: $0.videoData) }
             workoutHistory.hashTags = hashTagArray.map{ HashTag(tag: $0)}
+            showModifyWorkoutView.toggle()
         }
-        showModifyWorkoutView.toggle()
     }
+    
+    private func updateAutoCompleteTags(with text: String) {
+        // workoutHistory에서 태그를 필터링하여 autoCompleteTags를 업데이트
+        autoCompleteTags = workoutHistories
+            .flatMap { $0.hashTags ?? [] }
+            .map { $0.tag }
+            .filter { $0.hasPrefix(text) }
+        
+        isShowingAutoComplete = !autoCompleteTags.isEmpty && !text.isEmpty
+    }
+    
+    private func selectAutoCompleteTag(_ tag: String) {
+        // 사용자가 태그를 선택하면 해시태그 배열에 추가하고 입력 필드 초기화
+        hashTagArray.append(tag)
+        hashTagText = ""
+        isShowingAutoComplete = false
+    }
+    
 }
 

@@ -52,9 +52,22 @@ class PermissionViewModel : ObservableObject{
             default:
                 break
             }
+            self.requestAccessNotification()
+        }
+    }
+    func requestAccessNotification(){
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+            if success {
+                print("설정 완료!")
+            } else if let error = error {
+                print(error.localizedDescription)
+            }
             self.complete()
         }
     }
+    
+    
+    
 //    // 오디오 권한 요청
 //    func requestAccessAudio() {
 //        AVCaptureDevice.requestAccess(for: .audio, completionHandler: { accessGranted in
@@ -92,7 +105,10 @@ class PermissionViewModel : ObservableObject{
 //    }
     
     func complete() {
-        self.permissionNotCompleted = false
+        DispatchQueue.main.async {
+            self.permissionNotCompleted = false
+            
+        }
     }
     
     
