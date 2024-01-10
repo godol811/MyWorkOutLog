@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyAO_VO6iP2P9W1MSXF9mBxYIlkIpWSh618</string>
+	<key>GCM_SENDER_ID</key>
+	<string>935418037356</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>kr.godol.MyWorkOutLog</string>
+	<key>PROJECT_ID</key>
+	<string>workoutlog-4adf8</string>
+	<key>STORAGE_BUCKET</key>
+	<string>workoutlog-4adf8.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:935418037356:ios:f1edfa0516545e8dd9c449</string>
+</dict>
+</plist>
