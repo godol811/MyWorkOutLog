@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSHealthShareUsageDescription</key>
+	<string>운동 일지 기록을 위한 추적으로 사용합니다.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>운동 일지 기록을 위한 추적으로 사용합니다.</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-6286948427227347~2588546411</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -211,6 +215,10 @@
 			<key>SKAdNetworkIdentifier</key>
 			<string>3qcr597p9d.skadnetwork</string>
 		</dict>
+	</array>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

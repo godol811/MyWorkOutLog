@@ -27,6 +27,8 @@ struct WorkoutModifyView: View {
     @State private var isShowingAutoComplete = false
     @State private var hashTagTextWidth:Double = 0.0
     
+    @State private var selectedMinutes: Int = 5
+    @State private var selectedSeconds: Int = 30
     
     @Query var workoutHistories : [WorkoutHistory]
     @Environment(\.modelContext) private var modelContext
@@ -63,6 +65,46 @@ struct WorkoutModifyView: View {
                             )
                             .frame(minHeight: 200)
                     }
+                    
+                    HStack{
+                        Text("운동 시간")
+                        Spacer()
+                        Group{
+                            Picker("분", selection: $selectedMinutes) {
+                                ForEach(0..<60) {
+                                    Text("\($0)분").tag($0)
+                                }
+                            }
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.white) // 여기를 변경함
+                            )
+                            .pickerStyle(DefaultPickerStyle())
+                            .accentColor(.black) // 여기에 Tint 색상을 추가함
+                           
+                            Picker("초", selection: $selectedSeconds) {
+                                ForEach(0..<60) {
+                                    Text("\($0)초").tag($0)
+                                }
+                            }
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.white) // 여기를 변경함
+                            )
+                            .pickerStyle(DefaultPickerStyle())
+                            .accentColor(.black) // 여기에 Tint 색상을 추가함
+                        }
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .opacity(0.1)
+                        )
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.black.opacity(0.1)) // 여기를 변경함
+                    )
+                    
                     Picker(selection: $selectedCondition, label: Text("얼마나 힘들었나요?")) {
                         ForEach(conditions, id:\.self){ condition in
                             Text(condition.localized).tag(condition)
@@ -240,11 +282,12 @@ struct WorkoutModifyView: View {
             hideKeyboard()
         }
         .onAppear{
-            print("AA \(workoutHistory.title)")
             title = workoutHistory.title
             content = workoutHistory.content
             selectedCondition = workoutHistory.condition
             hashTagArray = workoutHistory.hashTags?.map{ $0.tag } ?? []
+            selectedMinutes = (workoutHistory.workoutTime ?? 0) / 60
+            selectedSeconds = (workoutHistory.workoutTime ?? 0) % 60
             DispatchQueue.main.async{
                 vm.thumbnailImages = workoutHistory.media?.map{ ThumbnailView(image: UIImage(data:$0.data )!, type: $0.type , videoData: $0.videoData) } ?? []
             }
@@ -302,7 +345,7 @@ struct WorkoutModifyView: View {
         autoCompleteTags = workoutHistories
             .flatMap { $0.hashTags ?? [] }
             .map { $0.tag }
-            .filter { $0.hasPrefix(text) }
+            .filter { $0.lowercased().hasPrefix(text.lowercased()) }
         
         isShowingAutoComplete = !autoCompleteTags.isEmpty && !text.isEmpty
     }

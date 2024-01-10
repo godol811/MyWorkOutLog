@@ -11,6 +11,7 @@ import GoogleMobileAds
 import AppTrackingTransparency
 import AdSupport
 import UserNotifications
+import Firebase
 
 @main
 struct MyWorkOutLogApp: App {
@@ -33,7 +34,7 @@ struct MyWorkOutLogApp: App {
         }
     }()
     
-
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -58,33 +59,33 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     // 기존의 application 메서드 유지
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-       // Google Mobile Ads 초기화
-       GADMobileAds.sharedInstance().start(completionHandler: nil)
-
-
-       return true
+        // Google Mobile Ads 초기화
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        FirebaseApp.configure()
+        
+        return true
     }
-
-   
-//    func resetApplicationIconBadgeNumber() {
-//        let center = UNUserNotificationCenter.current()
-//        center.removeAllDeliveredNotifications()  // 이미 배달된 모든 알림 제거
-//        center.getNotificationSettings { settings in
-//            if settings.badgeSetting != .disabled {
-//                // 배지 설정이 활성화되어 있을 경우, 배지 수를 0으로 설정
-//                let badgeResetContent = UNMutableNotificationContent()
-//                badgeResetContent.badge = NSNumber(value: 0)
-//
-//                let badgeResetRequest = UNNotificationRequest(identifier: "badgeReset",
-//                                                              content: badgeResetContent,
-//                                                              trigger: nil)
-//                center.add(badgeResetRequest) { error in
-//                    if let error = error {
-//                        print("배지 리셋 알림 오류: \(error)")
-//                    }
-//                }
-//            }
-//        }
-//    }
-
+    
+    
+    //    func resetApplicationIconBadgeNumber() {
+    //        let center = UNUserNotificationCenter.current()
+    //        center.removeAllDeliveredNotifications()  // 이미 배달된 모든 알림 제거
+    //        center.getNotificationSettings { settings in
+    //            if settings.badgeSetting != .disabled {
+    //                // 배지 설정이 활성화되어 있을 경우, 배지 수를 0으로 설정
+    //                let badgeResetContent = UNMutableNotificationContent()
+    //                badgeResetContent.badge = NSNumber(value: 0)
+    //
+    //                let badgeResetRequest = UNNotificationRequest(identifier: "badgeReset",
+    //                                                              content: badgeResetContent,
+    //                                                              trigger: nil)
+    //                center.add(badgeResetRequest) { error in
+    //                    if let error = error {
+    //                        print("배지 리셋 알림 오류: \(error)")
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+    
 }

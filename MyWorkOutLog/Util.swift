@@ -140,3 +140,10 @@ func saveImageToDocumentDirectory(image: UIImage) -> URL? {
         return nil
     }
 }
+
+// 초를 분:초 형식으로 변환하는 함수
+func secondsToTimeString(_ seconds: Int) -> String {
+    let minutes = seconds / 60
+    let remainingSeconds = seconds % 60
+    return "\(minutes):\(String(format: "%02d", remainingSeconds))"
+}

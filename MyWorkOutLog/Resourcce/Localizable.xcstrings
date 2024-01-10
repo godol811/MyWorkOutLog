@@ -21,6 +21,26 @@
         }
       }
     },
+    "%lld분" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min"
+          }
+        }
+      }
+    },
+    "%lld초" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld sec"
+          }
+        }
+      }
+    },
     "•" : {
       "localizations" : {
         "en" : {
@@ -208,6 +228,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "보통"
+          }
+        }
+      }
+    },
+    "분" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
           }
         }
       }
@@ -547,6 +577,33 @@
         }
       }
     },
+    "운동 시간" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Workout time"
+          }
+        }
+      }
+    },
+    "운동 제목" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Workout of %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 의 운동"
+          }
+        }
+      }
+    },
     "저장하기" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -593,6 +650,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "제목을 입력해주세요."
+          }
+        }
+      }
+    },
+    "처음이신가요? \n여기를 눌러 \n운동을 추가해주세요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Is this your first time?                                                                                    Tap here to                                                                                                      to add workout"
+          }
+        }
+      }
+    },
+    "처음이신가요? \n우측 상단에 + 버튼을 눌러 \n운동을 추가해주세요" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Is this your first time?                                                                                    Tap here to                                                                                                      to add workout"
+          }
+        }
+      }
+    },
+    "처음이신가요? \\n여기를 눌러 \\n운동을 추가해주세요" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Is this your first time?                                                                                    Tap here to                                                                                                      to add workout"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "처음이신가요? \\n여기를 눌러 \\n운동을 추가해주세요"
+          }
+        }
+      }
+    },
+    "초" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sec"
           }
         }
       }

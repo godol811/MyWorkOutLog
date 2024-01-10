@@ -11,7 +11,7 @@ import SDWebImageSwiftUI
 import SwiftData
 
 struct WorkoutAddView: View {
-    @State private var title = ""
+    @State private var title = String(format: NSLocalizedString("운동 제목", comment: ""), dateFormattedLocalized(Date()))
     @State private var content = ""
     @State private var hashTagText = ""
     @State private var hashTagArray: [String] = []
@@ -27,6 +27,8 @@ struct WorkoutAddView: View {
     @State private var isShowingAutoComplete = false
     @State private var hashTagTextWidth:Double = 0.0
     
+    @State private var selectedMinutes: Int = 5
+    @State private var selectedSeconds: Int = 30
     
     @Query var workoutHistories : [WorkoutHistory]
     @Environment(\.modelContext) private var modelContext
@@ -51,7 +53,7 @@ struct WorkoutAddView: View {
                         if content.isEmpty {
                             Text("오늘 무슨 운동을 하셨나요?".localized)
                                 .foregroundColor(Color.gray)
-                                .padding(.horizontal, 8)
+                                .padding(.horizontal, 10)
                                 .padding(.vertical, 12)
                         }
                         TextEditor(text: $content)
@@ -63,7 +65,44 @@ struct WorkoutAddView: View {
                             )
                             .frame(minHeight: 200)
                     }
-                    
+                    HStack{
+                        Text("운동 시간")
+                        Spacer()
+                        Group{
+                            Picker("분", selection: $selectedMinutes) {
+                                ForEach(0..<60) {
+                                    Text("\($0)분").tag($0)
+                                }
+                            }
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.white) // 여기를 변경함
+                            )
+                            .pickerStyle(DefaultPickerStyle())
+                            .accentColor(.black) // 여기에 Tint 색상을 추가함
+                           
+                            Picker("초", selection: $selectedSeconds) {
+                                ForEach(0..<60) {
+                                    Text("\($0)초").tag($0)
+                                }
+                            }
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.white) // 여기를 변경함
+                            )
+                            .pickerStyle(DefaultPickerStyle())
+                            .accentColor(.black) // 여기에 Tint 색상을 추가함
+                        }
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .opacity(0.1)
+                        )
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.black.opacity(0.1)) // 여기를 변경함
+                    )
                     Picker(selection: $selectedCondition, label: Text("얼마나 힘들었나요?".localized)) {
                         ForEach(conditions, id:\.self){ condition in
                             Text(condition.localized).tag(condition)
@@ -282,6 +321,7 @@ struct WorkoutAddView: View {
                 let newItem = WorkoutHistory(title: title, content: content, writeDate: Date(), condition: selectedCondition)
                 let media = vm.thumbnailImages.map { Media(data: $0.image.jpegData(compressionQuality: 1.0)!, type: $0.type, videoData: $0.videoData) }
                 let tags = hashTagArray.map{ HashTag(tag: $0)}
+                newItem.workoutTime = selectedMinutes * 60 + selectedSeconds
                 newItem.hashTags = tags
                 newItem.media = media
                 modelContext.insert(newItem)
@@ -290,15 +330,17 @@ struct WorkoutAddView: View {
         }
     }
     
+    
     private func updateAutoCompleteTags(with text: String) {
         // workoutHistory에서 태그를 필터링하여 autoCompleteTags를 업데이트
         autoCompleteTags = workoutHistories
             .flatMap { $0.hashTags ?? [] }
             .map { $0.tag }
-            .filter { $0.hasPrefix(text) }
+            .filter { $0.lowercased().hasPrefix(text.lowercased()) }
         
         isShowingAutoComplete = !autoCompleteTags.isEmpty && !text.isEmpty
     }
+    
     
     private func selectAutoCompleteTag(_ tag: String) {
         // 사용자가 태그를 선택하면 해시태그 배열에 추가하고 입력 필드 초기화

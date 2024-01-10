@@ -21,13 +21,14 @@ final class WorkoutHistory {
 //    @Relationship(inverse: \Video.workoutHistory) var videos: [Video]?
     var writeDate: Date
     var condition : String
+    var workoutTime: Int?
     
-    
-    init(title: String, content: String, writeDate: Date, condition: String) {
+    init(title: String, content: String, writeDate: Date, condition: String, workoutTime: Int? = 0) {
         self.title = title
         self.content = content
         self.writeDate = writeDate
         self.condition = condition
+        self.workoutTime = workoutTime
     }
     
   

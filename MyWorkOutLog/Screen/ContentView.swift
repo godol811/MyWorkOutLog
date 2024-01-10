@@ -47,7 +47,7 @@ struct ContentView: View {
             
         })
         .toolbar(.visible, for: .tabBar)
-        .tint(.mint)
+//        .tint(.mint)
         .onAppear {
             if isWorkoutLoggedToday() {
                 // 오늘 날짜에 대한 로그가 있으면, 로컬 알림 취소

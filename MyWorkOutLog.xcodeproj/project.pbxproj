@@ -19,6 +19,13 @@
 		7C030A362B43D79A00A51AC0 /* PhotoSelectorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C030A352B43D79A00A51AC0 /* PhotoSelectorViewModel.swift */; };
 		7C28F3172B453E1D00D12099 /* WorkoutDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C28F3162B453E1D00D12099 /* WorkoutDetailView.swift */; };
 		7C28F3192B4545AF00D12099 /* MediaFullScreenViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C28F3182B4545AF00D12099 /* MediaFullScreenViewer.swift */; };
+		7C3BA45E2B4E366D0064C377 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7C3BA45D2B4E366D0064C377 /* FirebaseAnalytics */; };
+		7C3BA4602B4E366D0064C377 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 7C3BA45F2B4E366D0064C377 /* FirebaseAnalyticsOnDeviceConversion */; };
+		7C3BA4622B4E366D0064C377 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7C3BA4612B4E366D0064C377 /* FirebaseAnalyticsSwift */; };
+		7C3BA4642B4E366D0064C377 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 7C3BA4632B4E366D0064C377 /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		7C3BA4662B4E366D0064C377 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 7C3BA4652B4E366D0064C377 /* FirebaseAppCheck */; };
+		7C3BA4682B4E37060064C377 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C3BA4672B4E37060064C377 /* GoogleService-Info.plist */; };
+		7C3BA46B2B4E88F00064C377 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3BA46A2B4E88F00064C377 /* HealthKitManager.swift */; };
 		7C6BE5CA2B47893E00CE57C1 /* WorkoutDayListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6BE5C92B47893E00CE57C1 /* WorkoutDayListView.swift */; };
 		7C6BE5CD2B47956A00CE57C1 /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6BE5CC2B47956A00CE57C1 /* LanguageManager.swift */; };
 		7C81B32F2B4D0A2F000882DF /* AdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C81B32E2B4D0A2F000882DF /* AdViewModel.swift */; };
@@ -34,6 +41,8 @@
 		7CA7A0A72B4642E7007FFB72 /* WorkoutListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7A0A62B4642E7007FFB72 /* WorkoutListView.swift */; };
 		7CA7A0A92B464474007FFB72 /* WorkoutCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7A0A82B464474007FFB72 /* WorkoutCalendarView.swift */; };
 		7CA7A0AE2B468EB1007FFB72 /* CalendarView in Frameworks */ = {isa = PBXBuildFile; productRef = 7CA7A0AD2B468EB1007FFB72 /* CalendarView */; };
+		7CB93C5F2B4D643D008C4B27 /* GoogleAdNativeAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB93C5E2B4D643D008C4B27 /* GoogleAdNativeAdView.swift */; };
+		7CB93C632B4D66B9008C4B27 /* NativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CB93C622B4D66B9008C4B27 /* NativeAdView.xib */; };
 		7CC4F1FD2B4BE1B100DC3A9F /* PermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC4F1FC2B4BE1B100DC3A9F /* PermissionView.swift */; };
 		7CE7810E2B4A5A32009092AF /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE7810D2B4A5A31009092AF /* GoogleMobileAds */; };
 		7CE781102B4A5ADA009092AF /* GoogleAdMobManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE7810F2B4A5ADA009092AF /* GoogleAdMobManager.swift */; };
@@ -53,6 +62,8 @@
 		7C030A352B43D79A00A51AC0 /* PhotoSelectorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorViewModel.swift; sourceTree = "<group>"; };
 		7C28F3162B453E1D00D12099 /* WorkoutDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDetailView.swift; sourceTree = "<group>"; };
 		7C28F3182B4545AF00D12099 /* MediaFullScreenViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFullScreenViewer.swift; sourceTree = "<group>"; };
+		7C3BA4672B4E37060064C377 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7C3BA46A2B4E88F00064C377 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		7C6BE5C92B47893E00CE57C1 /* WorkoutDayListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDayListView.swift; sourceTree = "<group>"; };
 		7C6BE5CC2B47956A00CE57C1 /* LanguageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageManager.swift; sourceTree = "<group>"; };
 		7C81B32E2B4D0A2F000882DF /* AdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdViewModel.swift; sourceTree = "<group>"; };
@@ -67,6 +78,8 @@
 		7C9FBDDE2B47F5F800C57B0F /* InstagramShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramShareView.swift; sourceTree = "<group>"; };
 		7CA7A0A62B4642E7007FFB72 /* WorkoutListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListView.swift; sourceTree = "<group>"; };
 		7CA7A0A82B464474007FFB72 /* WorkoutCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCalendarView.swift; sourceTree = "<group>"; };
+		7CB93C5E2B4D643D008C4B27 /* GoogleAdNativeAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdNativeAdView.swift; sourceTree = "<group>"; };
+		7CB93C622B4D66B9008C4B27 /* NativeAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NativeAdView.xib; sourceTree = "<group>"; };
 		7CC4F1FC2B4BE1B100DC3A9F /* PermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionView.swift; sourceTree = "<group>"; };
 		7CE7810F2B4A5ADA009092AF /* GoogleAdMobManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdMobManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -77,9 +90,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CE7810E2B4A5A32009092AF /* GoogleMobileAds in Frameworks */,
+				7C3BA4602B4E366D0064C377 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				7C030A322B43D21A00A51AC0 /* SDWebImageSwiftUI in Frameworks */,
 				7CA7A0AE2B468EB1007FFB72 /* CalendarView in Frameworks */,
+				7C3BA4622B4E366D0064C377 /* FirebaseAnalyticsSwift in Frameworks */,
+				7C3BA45E2B4E366D0064C377 /* FirebaseAnalytics in Frameworks */,
 				7C030A2D2B43CE9F00A51AC0 /* ExyteMediaPicker in Frameworks */,
+				7C3BA4662B4E366D0064C377 /* FirebaseAppCheck in Frameworks */,
+				7C3BA4642B4E366D0064C377 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +107,8 @@
 		7C030A0B2B43A18500A51AC0 = {
 			isa = PBXGroup;
 			children = (
+				7C3BA4672B4E37060064C377 /* GoogleService-Info.plist */,
+				7CB93C622B4D66B9008C4B27 /* NativeAdView.xib */,
 				7C948FCC2B4BBB4800C66A8C /* Launch Screen.storyboard */,
 				7C948FC82B4BB9AA00C66A8C /* appstore.png */,
 				7C030A162B43A18500A51AC0 /* MyWorkOutLog */,
@@ -166,6 +186,7 @@
 		7C6BE5C82B47886300CE57C1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7CB93C5E2B4D643D008C4B27 /* GoogleAdNativeAdView.swift */,
 				7C28F3182B4545AF00D12099 /* MediaFullScreenViewer.swift */,
 				7C9FBDD12B47E35100C57B0F /* ActivityViewController.swift */,
 				7C9FBDDE2B47F5F800C57B0F /* InstagramShareView.swift */,
@@ -180,6 +201,7 @@
 				7C6BE5CC2B47956A00CE57C1 /* LanguageManager.swift */,
 				7CE7810F2B4A5ADA009092AF /* GoogleAdMobManager.swift */,
 				7C81B3302B4D1ED0000882DF /* NotificationManager.swift */,
+				7C3BA46A2B4E88F00064C377 /* HealthKitManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -214,6 +236,11 @@
 				7C030A312B43D21A00A51AC0 /* SDWebImageSwiftUI */,
 				7CA7A0AD2B468EB1007FFB72 /* CalendarView */,
 				7CE7810D2B4A5A31009092AF /* GoogleMobileAds */,
+				7C3BA45D2B4E366D0064C377 /* FirebaseAnalytics */,
+				7C3BA45F2B4E366D0064C377 /* FirebaseAnalyticsOnDeviceConversion */,
+				7C3BA4612B4E366D0064C377 /* FirebaseAnalyticsSwift */,
+				7C3BA4632B4E366D0064C377 /* FirebaseAnalyticsWithoutAdIdSupport */,
+				7C3BA4652B4E366D0064C377 /* FirebaseAppCheck */,
 			);
 			productName = MyWorkOutLog;
 			productReference = 7C030A142B43A18500A51AC0 /* MyWorkOutLog.app */;
@@ -250,6 +277,7 @@
 				7CA7A0AC2B468EB1007FFB72 /* XCRemoteSwiftPackageReference "CalendarView" */,
 				7C9FBDD32B47E83200C57B0F /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 				7CE7810C2B4A5A31009092AF /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				7C3BA45C2B4E366D0064C377 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 7C030A152B43A18500A51AC0 /* Products */;
 			projectDirPath = "";
@@ -266,10 +294,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C948FCD2B4BBB4800C66A8C /* Launch Screen.storyboard in Resources */,
+				7C3BA4682B4E37060064C377 /* GoogleService-Info.plist in Resources */,
 				7C948FCA2B4BB9AA00C66A8C /* appstore.png in Resources */,
 				7C030A212B43A18600A51AC0 /* Preview Assets.xcassets in Resources */,
 				7C030A1E2B43A18600A51AC0 /* Assets.xcassets in Resources */,
 				7C948FC72B4BB5F200C66A8C /* InfoPlist.xcstrings in Resources */,
+				7CB93C632B4D66B9008C4B27 /* NativeAdView.xib in Resources */,
 				7C9FBDD02B47969900C57B0F /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -283,12 +313,14 @@
 			files = (
 				7C86F6172B4520CE00E4CC84 /* WorkoutModifyView.swift in Sources */,
 				7C6BE5CD2B47956A00CE57C1 /* LanguageManager.swift in Sources */,
+				7CB93C5F2B4D643D008C4B27 /* GoogleAdNativeAdView.swift in Sources */,
 				7C81B3312B4D1ED0000882DF /* NotificationManager.swift in Sources */,
 				7C28F3192B4545AF00D12099 /* MediaFullScreenViewer.swift in Sources */,
 				7CA7A0A92B464474007FFB72 /* WorkoutCalendarView.swift in Sources */,
 				7C28F3172B453E1D00D12099 /* WorkoutDetailView.swift in Sources */,
 				7C030A1A2B43A18500A51AC0 /* ContentView.swift in Sources */,
 				7C9FBDD22B47E35100C57B0F /* ActivityViewController.swift in Sources */,
+				7C3BA46B2B4E88F00064C377 /* HealthKitManager.swift in Sources */,
 				7CE781102B4A5ADA009092AF /* GoogleAdMobManager.swift in Sources */,
 				7C9FBDDF2B47F5F800C57B0F /* InstagramShareView.swift in Sources */,
 				7C030A1C2B43A18500A51AC0 /* WorkoutHistory.swift in Sources */,
@@ -359,7 +391,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -416,7 +448,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -457,7 +489,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.02;
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = kr.godol.MyWorkOutLog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -502,7 +534,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.02;
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = kr.godol.MyWorkOutLog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -556,6 +588,14 @@
 				minimumVersion = 2.2.6;
 			};
 		};
+		7C3BA45C2B4E366D0064C377 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.19.1;
+			};
+		};
 		7C9FBDD32B47E83200C57B0F /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
@@ -592,6 +632,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7C030A302B43D21A00A51AC0 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
+		};
+		7C3BA45D2B4E366D0064C377 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C3BA45C2B4E366D0064C377 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		7C3BA45F2B4E366D0064C377 /* FirebaseAnalyticsOnDeviceConversion */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C3BA45C2B4E366D0064C377 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsOnDeviceConversion;
+		};
+		7C3BA4612B4E366D0064C377 /* FirebaseAnalyticsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C3BA45C2B4E366D0064C377 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsSwift;
+		};
+		7C3BA4632B4E366D0064C377 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C3BA45C2B4E366D0064C377 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		7C3BA4652B4E366D0064C377 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C3BA45C2B4E366D0064C377 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
 		};
 		7CA7A0AD2B468EB1007FFB72 /* CalendarView */ = {
 			isa = XCSwiftPackageProductDependency;

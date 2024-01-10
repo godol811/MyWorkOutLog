@@ -77,6 +77,13 @@ struct PermissionView: View {
             HStack(spacing: 20) {
                 PermissionDetailView(icon: "icon_outline_alert", title: "알람(선택)".localized, description: "운동 기록 유도".localized, bgColor: Color.clear)
             }.padding([.horizontal, .bottom], 20)
+            
+            Spacer().frame(height: 10)
+            
+            HStack(spacing: 20) {
+                PermissionDetailView(icon: "icon_outline_alert", systemIcon: "figure.walk", title: "피트니스(선택)".localized, description: "운동 기록 추적".localized, bgColor: Color.clear)
+            }.padding([.horizontal, .bottom], 20)
+            
         }
         .background(Color.white)
         .cornerRadius(20)
@@ -87,6 +94,7 @@ struct PermissionView: View {
 struct PermissionDetailView : View {
     
     var icon : String
+    var systemIcon : String?
     var title : String
     var description : String
     var bgColor : Color
@@ -103,19 +111,36 @@ struct PermissionDetailView : View {
     
     var body: some View {
         HStack(spacing: sizeInfo.padding) {
-            Image(icon)
-                .renderingMode(.template)
-                .resizable()
-                .padding(sizeInfo.padding)
-                .foregroundColor(Color.gray)
-                .clipShape(Circle())
-                .frame(width: sizeInfo.iconSize.width, height: sizeInfo.iconSize.height)
-                .background(Color.white)
-                .overlay(
-                    Circle().strokeBorder(Color.gray, lineWidth: sizeInfo.lineWidth)
-                )
-                .cornerRadius(sizeInfo.iconCornerRadius)
-//                .padding(.all, 10)
+            if let icon = systemIcon{
+                Image(systemName: icon)
+                    .renderingMode(.template)
+                    .resizable()
+                    .padding(sizeInfo.padding)
+                    .foregroundColor(Color.gray)
+                    .clipShape(Circle())
+                    .frame(width: sizeInfo.iconSize.width, height: sizeInfo.iconSize.height)
+                    .background(Color.white)
+                    .overlay(
+                        Circle().strokeBorder(Color.gray, lineWidth: sizeInfo.lineWidth)
+                    )
+                    .cornerRadius(sizeInfo.iconCornerRadius)
+            }else{
+                Image(icon)
+                    .renderingMode(.template)
+                    .resizable()
+                    .padding(sizeInfo.padding)
+                    .foregroundColor(Color.gray)
+                    .clipShape(Circle())
+                    .frame(width: sizeInfo.iconSize.width, height: sizeInfo.iconSize.height)
+                    .background(Color.white)
+                    .overlay(
+                        Circle().strokeBorder(Color.gray, lineWidth: sizeInfo.lineWidth)
+                    )
+                    .cornerRadius(sizeInfo.iconCornerRadius)
+    //                .padding(.all, 10)
+            }
+            
+  
                 
             
             VStack(alignment: .leading, spacing: 0){

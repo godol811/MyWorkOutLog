@@ -12,7 +12,7 @@ struct WorkoutDayListView: View {
     @Environment(\.modelContext) private var modelContext
     var workoutHistories: [WorkoutHistory]
     @State private var showAddWorkoutView: Bool = false
-    @State private var showModifyWorkoutView: Bool = false
+    @State private var shzowModifyWorkoutView: Bool = false
     // 날짜별로 그룹화된 운동 기록
     
     
@@ -51,25 +51,29 @@ struct WorkoutDayListView: View {
                                 }//SCROLLVIEW
                                 .frame(maxWidth:110, maxHeight: 110)
                             }
-                            VStack(alignment: .leading){
-                                HStack(alignment:.bottom){
+                            HStack(alignment:.top){
+                                VStack(alignment: .leading){
                                     Text(history.title)
                                         .font(.headline)
                                         .padding(.bottom)
-                                    Spacer()
-                                    Text(history.condition)
+                                    ForEach(history.hashTags ?? []){ hashTag in
+                                        Text("#\(hashTag.tag)")
+                                            .lineLimit(1)
+                                            .truncationMode(.tail)
+                                            .font(.footnote)
+                                    }
+                                }
+                                Spacer()
+                                VStack(alignment: .trailing){
+                                    Text("\(history.condition.localized)")
                                         .font(.footnote)
-                                        .padding(.bottom)
                                         .foregroundColor(history.condition.colorForCondition())
+                                    
+                                    if history.workoutTime != nil || history.workoutTime != 0{
+                                        Text("\(secondsToTimeString(history.workoutTime ?? 0))")
+                                    }
                                 }
-                                
-                                ForEach(history.hashTags ?? []){ hashTag in
-                                    Text("#\(hashTag.tag)")
-                                        .lineLimit(1)
-                                        .truncationMode(.tail)
-                                        .font(.footnote)
-                                }
-                            }// VSTACK
+                            }// HSTACK
                             Spacer()
                         }// HSTACK
                     }
@@ -84,15 +88,16 @@ struct WorkoutDayListView: View {
                             Label("Delete", systemImage: "trash")
                         }
                     }
-//                    .fullScreenCover(isPresented: $showModifyWorkoutView){
-//                        WorkoutModifyView(workoutHistory: history, showModifyWorkoutView: $showModifyWorkoutView)
-//                    }
+                    //                    .fullScreenCover(isPresented: $showModifyWorkoutView){
+                    //                        WorkoutModifyView(workoutHistory: history, showModifyWorkoutView: $showModifyWorkoutView)
+                    //                    }
                     
                 }
                 
                 
                 
             }
+            .toolbar(.hidden, for: .tabBar)
             .listRowInsets(EdgeInsets.init(top: 10, leading: 10, bottom: 10, trailing: 10))
             .listStyle(GroupedListStyle())
             .navigationTitle(dateFormattedLocalized(workoutHistories.first?.writeDate ?? Date()))
